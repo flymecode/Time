@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.time.mapper.BookMapper">
+	<resultMap id="findBook" type="com.time.pojo.Book">
+		<id property="bookId" column="book_id"/>
+		<result property="title" column="book_title"/>
+		<result property="author" column="book_author"/>
+		<result property="price" column="book_price"/>
+		<result property="image" column="book_image"/>
+		<result property="isbn" column="book_isbn"/>
+		<result property="pubdate" column="book_pubdate"/>
+		<result property="publisher" column="book_publisher"/>
+		<result property="pages" column="book_pages"/>
+		<result property="summary" column="book_summary"/>
+	</resultMap>
+
+	<select id="findBookByName" parameterType="String" resultMap="findBook">
+		SELECT * FROM `book` WHERE book_title = #{bookName};
+	</select>
+
+	<select id="findBookById" parameterType="int" resultMap="findBook">
+		SELECT * FROM `book` WHERE book_id = #{bookId};
+	</select>
+
+	<select id="findBookByIsbn" parameterType="string" resultMap="findBook">
+		SELECT * FROM `book` WHERE book_isbn = #{isbn};
+	</select>
+
+	<select id="findBookByTime" parameterType="int" resultMap="findBook">
+		SELECT * FROM `book` order by put_away_time desc limit 0,8;
+	</select>
+
+	<select id="findBookByWeight" parameterType="int" resultMap="findBook">
+		SELECT * FROM `book` order by book_weight desc limit 0,8;
+	</select>
+
+</mapper>

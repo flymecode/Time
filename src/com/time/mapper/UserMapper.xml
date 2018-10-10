@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.time.mapper.UserMapper">
+
+	<resultMap id="find_by_code" type="com.time.pojo.User">
+		<id column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_password" property="passWord"/>
+		<result column="user_state" property="state"/>
+		<result column="code" property="code"/>
+		<result column="user_email" property="email"/>
+	</resultMap>
+
+	<select id="findUser" parameterType="com.time.pojo.User" resultMap="find_by_code">
+		SELECT user_id,user_name,user_state,user_email FROM `user` WHERE user_name = #{userName} AND user_password = #{passWord};
+	</select>
+
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="user_id" parameterType="com.time.pojo.User">
+		INSERT INTO `user`
+		(user_name,user_password,user_state,code,user_email,create_time)
+		values (#{userName},#{passWord},#{state},#{code},#{email},#{createTime});
+	</insert>
+
+	<select id="findUserByCode" parameterType="string" resultMap="find_by_code">
+		select * from `user` where code = #{code};
+	</select>
+	
+	<update id="updateUserState" parameterType="com.time.pojo.User">
+		update `user` set code = #{code},user_state=#{state} where user_id = #{userId};
+	</update>
+
+	<select id="checkUserName" resultType="int">
+		select count(1) from `user` where user_name = #{value};
+	</select>
+
+	<update id="updateUserPassword" parameterType="com.time.pojo.User">
+		update `user` set user_password = #{passWord} where user_id = #{userId};
+	</update>
+
+</mapper>
